@@ -231,6 +231,7 @@ namespace people {
       // Init the detector and subscribe to the images and camera parameters. One case for rgbd, one for stereo.
       if (use_rgbd_) {
 
+	ROS_INFO_STREAM_NAMED("face_detector","use RGBD.");
 	faces_->initFaceDetectionDepth(1, haar_filename_, face_size_min_m, face_size_max_m, max_face_z_m, face_sep_dist_m);
 
 	camera_ = nh_.resolveName("camera");
@@ -303,6 +304,7 @@ namespace people {
 
 
       // If running as an action server, just stay connected so that action calls are fast.
+      ROS_INFO_STREAM_NAMED("face_detector","almost done initialising.");
       if (!do_continuous_) connectCb();
 
       ros::MultiThreadedSpinner s(2);
@@ -325,6 +327,7 @@ namespace people {
     // Handles (un)subscribing when clients (un)subscribe
     void connectCb()
     {
+      ROS_INFO_STREAM_NAMED("face_detector","connectCb.");
       boost::mutex::scoped_lock lock(connect_mutex_);
       if (use_rgbd_) 
       {
@@ -338,6 +341,7 @@ namespace people {
 	}
 	else if (!do_continuous_ || !image_sub_.getSubscriber())
 	{
+	  ROS_INFO_STREAM_NAMED("face_detector","subscribe");
 	  image_sub_.subscribe(it_, camera_topic_, 3);
 	  depth_image_sub_.subscribe(it_, depth_topic_, 3);
 	  c1_info_sub_.subscribe(nh_, camera_info_topic_, 3);
