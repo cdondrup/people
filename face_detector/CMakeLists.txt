@@ -14,8 +14,11 @@ find_package(catkin REQUIRED COMPONENTS
   image_transport
   people_msgs
   image_geometry
+  actionlib
   actionlib_msgs
-  message_generation)
+  message_generation
+  rospy
+  roslib)
 
 find_package(Boost REQUIRED COMPONENTS signals system thread)
 find_package(OpenCV)
@@ -26,14 +29,20 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS})
 
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
-
 add_action_files(
   DIRECTORY action
   FILES FaceDetector.action
 )
 generate_messages(DEPENDENCIES actionlib_msgs people_msgs)
+
+catkin_package(INCLUDE_DIRS include
+  CATKIN_DEPENDS people_msgs 
+                 geometry_msgs 
+                 actionlib_msgs 
+                 stereo_msgs
+                 sensor_msgs
+                 std_msgs
+                 message_runtime)
 
 add_executable(face_detector
                        src/face_detection.cpp 
@@ -45,8 +54,6 @@ target_link_libraries(${PROJECT_NAME}
 
 add_dependencies(face_detector ${PROJECT_NAME}_generate_messages_cpp)
 
-catkin_package(INCLUDE_DIRS include
-  CATKIN_DEPENDS people_msgs geometry_msgs message_runtime)
 
 install(TARGETS
   face_detector
