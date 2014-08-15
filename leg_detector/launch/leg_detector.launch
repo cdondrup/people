@@ -1,4 +1,10 @@
 <launch>
-  <node pkg="leg_detector" type="leg_detector" name="leg_detector" args="scan:=base_scan $(find leg_detector)/config/trained_leg_detector.yaml" output="screen"/>
+    <arg name="scan" default="/scan" />
+    <arg name="machine" default="localhost" />
+    <arg name="user" default="" />
+
+    <machine name="$(arg machine)" address="$(arg machine)" env-loader="/opt/strands/strands_catkin_ws/devel/env.sh" user="$(arg user)" default="true"/>
+
+    <node pkg="leg_detector" type="leg_detector" name="leg_detector" args="scan:=$(arg scan) $(find leg_detector)/config/trained_leg_detector.yaml" output="log"/>
 </launch>
 
