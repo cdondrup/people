@@ -8,7 +8,7 @@ http://ros.org/wiki/people
 
 Requirements & building
 ^^^^^^^^^^^^^^^^^^^^^^^
-This project depends on ROS and can be built using catkin.
+Depends on the kalman_filter ros package. Needs to be installed manually: sudo apt-get install ros-hydro-kalman-filter
 
 Branches
 ^^^^^^^^
